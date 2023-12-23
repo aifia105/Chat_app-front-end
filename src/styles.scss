@@ -23,4 +23,30 @@
     background: #555;
   }
 
+  .messages{
+    height: calc(100% - 160px);
+    overflow-y: scroll;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
   
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .emoji-picker {
+    display: none; /* Initially hidden */
+    position: absolute;
+    bottom: 40px; /* Adjust this value based on your layout */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .emoji-picker .emoji {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 8px;
+  }
