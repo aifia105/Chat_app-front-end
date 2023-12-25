@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { LoginService } from '../../services/Login.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -10,5 +11,9 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrl: './chat-list.component.scss'
 })
 export class ChatListComponent {
+
+  loginService = inject(LoginService);
+
+  user = this.loginService.user();
 
 }
