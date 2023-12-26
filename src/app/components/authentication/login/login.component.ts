@@ -35,7 +35,7 @@ export class LoginComponent {
       const request = this.loginForm.getRawValue();
       this.LoginService.authenticateUser$.next(request);
     } else {
-      console.error('Email or password is undefined');
+      this.LoginService.error$.next('Please fill in all fields');
     }
   }
 
