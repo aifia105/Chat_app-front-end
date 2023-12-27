@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { RegisterService } from '../../../services/register.service';
+import { AuthService } from '../../../services/Auth.service';
 
 @Component({
   selector: 'app-register',
@@ -17,11 +17,11 @@ export class RegisterComponent {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  public registerService = inject(RegisterService);
+  public authService = inject(AuthService);
 
   constructor(){
     effect(() => {
-      if(this.registerService.user()){
+      if(this.authService.user()){
         this.router.navigate(['/home']);
       }
     })
@@ -49,14 +49,14 @@ export class RegisterComponent {
           picture: Array.from(byteArray),
         };
 
-        this.registerService.registerUser$.next(request);
+        this.authService.registerUser$.next(request);
       };
       console.log('from component', this.registerFrom.getRawValue());
       } else{
-        this.registerService.error$.next('Passwords do not match');
+        this.authService.error$.next('Passwords do not match');
       }
     } else {
-      this.registerService.error$.next('Please fill in all fields');
+      this.authService.error$.next('Please fill in all fields');
     }
   }
 

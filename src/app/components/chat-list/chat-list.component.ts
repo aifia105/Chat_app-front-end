@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { LoginService } from '../../services/Login.service';
+import { AuthService } from '../../services/Auth.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -12,8 +12,9 @@ import { LoginService } from '../../services/Login.service';
 })
 export class ChatListComponent {
 
-  loginService = inject(LoginService);
+  authService = inject(AuthService);
 
-  user = this.loginService.user();
+  user = this.authService.user();
+  
 
 }

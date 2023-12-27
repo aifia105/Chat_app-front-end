@@ -6,25 +6,34 @@ import { EMPTY, Observable, Subject, catchError, switchMap, tap, throwError } fr
 import { RegisterRequest } from "../models/RegisterRequest";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 
-export type LoginStatus = 'pending' | 'success' | 'error';
+export type AuthStatus = 'pending' | 'success' | 'error';
 
-interface LoginState{
-    status: LoginStatus;
+interface AuthState{
+    status: AuthStatus;
     user: AuthenticationResponse | null;
 }
 
 @Injectable({ 
     providedIn: 'root'
  })
-export class LoginService {
+export class AuthService {
     private http = inject(HttpClient);
     //state
-    private state = signal<LoginState>({
+    private state = signal<AuthState>({
         status: 'pending',
         user: null,
     });
    //actions
    error$ = new Subject<any>();
+   registerUser$ = new Subject<RegisterRequest>();
+  userRegistered$ = this.registerUser$.pipe(
+    switchMap((registerRequest) => this.register(registerRequest).pipe(
+      catchError((error) => {
+        this.error$.next(error);
+        return EMPTY;
+      })
+    ))
+  );
    authenticateUser$ = new Subject<LoginRequest>();
    userAuthenticated$ = this.authenticateUser$.pipe(
     switchMap((LoginRequest) => this.login(LoginRequest).pipe(
@@ -49,6 +58,16 @@ export class LoginService {
     this.authenticateUser$.pipe().subscribe(() => {
         this.state.update((state) => ({ ...state, status: 'pending', user : null  }))
     });
+
+    this.userRegistered$.subscribe((user) => {
+      this.state.update((state) => ({... state, status: 'success', user: user}));
+    });
+    this.error$.subscribe(() => {
+      this.state.update((state) => ({... state, status: 'error'}));
+    });
+    this.registerUser$.subscribe(() => {
+      this.state.update((state) => ({... state, status: 'pending', user: null}))
+    });
    }
 
     
@@ -63,9 +82,23 @@ export class LoginService {
           });
         return this.http.post<AuthenticationResponse>(url, loginResquest , {headers: headers}).pipe(
             catchError(this.handleError),
-            tap((user) => {console.log('from backend', user);})
+            tap((user) => {console.log(user); })
         );
     }
+    register(registerRequest: RegisterRequest): Observable<AuthenticationResponse> {
+      const url = environment.apiUrl + 'register';
+      var headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:4200',
+          'Access-Control-Allow-Credentials': 'true',
+      });
+      return this.http.post<AuthenticationResponse>(url, registerRequest, {headers: headers}).pipe(
+          catchError(this.handleError),
+          tap((user) => {
+            console.log(user);
+          })
+      );
+   }
     private handleError(error: HttpErrorResponse) {
         if (error.status === 0) {
           console.error('An error occurred:', error.error);
