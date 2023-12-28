@@ -44,6 +44,10 @@ export class AuthService {
     
     ))
    );
+   disconnectUser$ = new Subject<string | undefined>();
+   userDisconnected$ = this.disconnectUser$.pipe(
+     tap((id) => this.disconnect(id))
+   );
    //selectors
    user = computed(() => this.state().user);
    status = computed(() => this.state().status);
@@ -68,6 +72,12 @@ export class AuthService {
     this.registerUser$.subscribe(() => {
       this.state.update((state) => ({... state, status: 'pending', user: null}))
     });
+    this.userDisconnected$.subscribe(() => {
+      this.state.update((state) => ({ ...state, status: 'success', user: null  }))
+    });
+    this.disconnectUser$.subscribe(() => {
+      this.state.update((state) => ({ ...state, status: 'pending', user: null  }))
+    })
    }
 
     
@@ -98,7 +108,20 @@ export class AuthService {
             console.log(user);
           })
       );
-   }
+    }
+
+    disconnect(id: string | undefined): void {
+      const url = environment.apiUrl + 'disconnect';
+      var headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        'Access-Control-Allow-Credentials': 'true',
+      });
+       this.http.post(url + `${id}`, {headers: headers}).pipe(
+        catchError(this.handleError),
+       );
+    }
+
     private handleError(error: HttpErrorResponse) {
         if (error.status === 0) {
           console.error('An error occurred:', error.error);
