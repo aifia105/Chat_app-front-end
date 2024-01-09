@@ -15,38 +15,24 @@
     </div>
 </div>
  <!-- converstaion list-->
- <div class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
+ @for (item of users; track $index) {
+  <div   class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
     <div class="flex-shrink-0">
       <!-- ngif user conected-->
       <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
-      <img src="https://docs.material-tailwind.com/img/face-2.jpg" class="rounded-full h-8 w-8">
+      <img [src]="item.picture" class="rounded-full h-8 w-8">
     </div>
     <div class="flex-1 min-w-0">
       <a href="#" class="focus:outline-none">
         <div class="flex items-center justify-between">
           <!-- friend name -->
-          <p class="text-sm font-bold text-gray-900">Name</p>
+          <p class="text-sm font-bold text-gray-900">{{item.username}}</p>
         </div>
 
       </a>
     </div>
   </div>
+ }
+ 
 
-  <!-- converstaion list-->
- <div class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
-    <div class="flex-shrink-0">
-      <!-- ngif user conected-->
-      <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
-      <img src="https://docs.material-tailwind.com/img/face-2.jpg" class="rounded-full h-8 w-8">
-    </div>
-    <div class="flex-1 min-w-0">
-      <a href="#" class="focus:outline-none">
-        <div class="flex items-center justify-between">
-          <!-- friend name -->
-          <p class="text-sm font-bold text-gray-900">Name</p>
-        </div>
-
-      </a>
-    </div>
-  </div>
 </div>

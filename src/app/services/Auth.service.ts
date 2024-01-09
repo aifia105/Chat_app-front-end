@@ -111,7 +111,7 @@ export class AuthService {
     }
 
     disconnect(id: string | undefined): void {
-      const url = environment.apiUrl + 'disconnect';
+      const url = environment.apiUrl + 'disconnect/';
       var headers = new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'http://localhost:4200',

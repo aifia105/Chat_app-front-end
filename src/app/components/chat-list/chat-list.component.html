@@ -2,7 +2,7 @@
   <div class="relative rounded-lg px-2  flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500 mb-4">
     <div class="flex-shrink-0">
       <!--user image-->
-      <div  class=" relative w-10 h-10 rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-2 before:-bottom-11 before:ring-1 before:ring-white "></div>
+      <div  class=" relative w-10 h-10 object-cover rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-2 before:-bottom-11 before:ring-1 before:ring-white "></div>
       <img  [src]="user?.picture" class="h-12 w-12 rounded-full">
     </div>
     <!-- username-->
@@ -21,12 +21,12 @@
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center text-blue-500 ">
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
-      <input #searchInput placeholder="Search" [(ngModel)]="searchTerm" (input)="onSearchChange($event)" name="search" class="focus:ring-blue-500 focus:border-blue-500 focus:outline-none block w-full pl-10 sm:text-sm border-gray-100 rounded-full p-2 border"  type="text">
+      <input #searchInput placeholder="Search"   name="search" class="focus:ring-blue-500 focus:border-blue-500 focus:outline-none block w-full pl-10 sm:text-sm border-gray-100 rounded-full p-2 border"  type="text">
     </div>
   </div>
-  <!-- search reslut-->
-
-<ul *ngFor="let item of filteredResult" role="menu" data-popover="notifications-menu" data-popover-placement="bottom"
+  <!-- search reslut (input)="onSearchChange($event) [(ngModel)]="searchTerm""
+  
+    <ul *ngFor="let item of filteredResult" role="menu" data-popover="notifications-menu" data-popover-placement="bottom"
   class="absolute z-10 flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
   <button role="menuitem"
     class="flex items-center w-full gap-4 px-3 py-2 pl-2 pr-8 leading-tight transition-all rounded-md outline-none cursor-pointer select-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
@@ -40,6 +40,9 @@
     </div>
   </button>
 </ul>
+  -->
+
+
 
 
 
@@ -49,17 +52,17 @@
 
 
   <!-- converstaion list-->
-  <div class="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
+  <div *ngFor="let item of friends" class="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
     <div class="flex-shrink-0">
       <!-- ngif user conected-->
       <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
-      <img src="https://docs.material-tailwind.com/img/face-2.jpg" class="rounded-full h-8 w-8">
+      <img [src]="item.picture" class="rounded-full h-8 w-8">
     </div>
     <div class="flex-1 min-w-0">
       <a href="#" class="focus:outline-none">
         <div class="flex items-center justify-between">
           <!-- friend name -->
-          <p class="text-sm font-bold text-gray-900">Name</p>
+          <p class="text-sm font-bold text-gray-900">{{item.username}}</p>
           <!-- timestemp last messgae-->
           <div class="text-gray-400 text-xs">12:00</div>
         </div>
@@ -73,27 +76,5 @@
     </div>
   </div>
 
-  <div class="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
-    <div class="flex-shrink-0">
-      <!-- ngif user conected-->
-      <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
-      <img src="https://docs.material-tailwind.com/img/face-2.jpg" class="rounded-full h-8 w-8">
-    </div>
-    <div class="flex-1 min-w-0">
-      <a href="#" class="focus:outline-none">
-        <div class="flex items-center justify-between">
-          <!-- friend name -->
-          <p class="text-sm font-bold text-gray-900">Name</p>
-          <!-- timestemp last messgae-->
-          <div class="text-gray-400 text-xs">12:00</div>
-        </div>
-        <div class="flex items-center justify-between">
-          <!-- timestemp last messgae-->
-          <p class="text-sm text-gray-500 truncate">message</p>
-          <!-- number of messgaes not seen-->
-          <div class="text-white text-xs bg-blue-500 rounded-full px-1 py-0">2</div>
-        </div>
-      </a>
-    </div>
-  </div>
+
 </div>
