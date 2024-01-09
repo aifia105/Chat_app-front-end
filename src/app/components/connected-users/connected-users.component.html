@@ -1,25 +1,51 @@
 <div class="bg-gray-50 pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden xl:block">
 <div class="h-full  pl-4 py-6 lg:w-64">
     <div>
-        <button
+   <button
         class="select-none flex gap-2 rounded-lg bg-blue-500 py-3 px-5 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         type="button"
+        id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom"
       >
        <p> Create group </p>  <i class="fa-solid fa-plus"></i> 
+    </button>
+  
+
+    <div id="dropdownSearch" class="z-10 hidden bg-gray-100 rounded-lg shadow w-60 dark:bg-gray-700">
+
+      <ul class="h-48 px-2 pb-3 pt-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
+        @for (item of users; track $index) {
+          <li>
+            <div class="flex items-center ps-2 rounded hover:bg-gray-50 dark:hover:bg-gray-600">
+              <input id="checkbox-item-11" type="checkbox" (change)="onCheckboxChange($event, item.id)"  [value]="item.id" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+              <label for="checkbox-item-11" class="w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{item.username}}</label>
+            </div>
+          </li>
+        }
+      </ul>
+      <button (click)="CreateConversationGroup(groupIds)"  class="w-full mx-auto flex items-center justify-center p-3 text-sm font-medium text-blue-500 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline">
+        
+        Confirm
       </button>
+  </div>
+
+
+
+
     </div>
     <div class="flex-1 min-w-0 pt-4 ">
        
-            <h2 class="text-sm font-extrabold text-gray-900 border-b border-gray-200 py-3 p-3">Connected Users :</h2>
+            <h2 class="text-sm font-extrabold text-gray-900 border-b border-gray-200 py-3 p-3">Users :</h2>
        
     </div>
 </div>
  <!-- converstaion list-->
  @for (item of users; track $index) {
-  <div   class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
+  <div (click)="CreateConversation(item.id)"   class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
     <div class="flex-shrink-0">
       <!-- ngif user conected-->
-      <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
+      @if (item.onlineStatus) {
+        <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
+      }
       <img [src]="item.picture" class="rounded-full h-8 w-8">
     </div>
     <div class="flex-1 min-w-0">
@@ -36,3 +62,4 @@
  
 
 </div>
+

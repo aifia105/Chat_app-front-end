@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, inject } from '@angular/core';
+import { ConversationService } from '../../services/conversation.service';
 
 @Component({
   selector: 'app-chat-window',
@@ -8,7 +9,7 @@ import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular
   templateUrl: './chat-window.component.html',
   styleUrl: './chat-window.component.scss'
 })
-export class ChatWindowComponent {
+export class ChatWindowComponent implements OnInit {
   emojis = [
     "😀",
     "😃",
@@ -91,6 +92,12 @@ export class ChatWindowComponent {
   showEmojiPicker = false;
   content: String = '';
   elementRef = inject(ElementRef);
+
+  private conversationService = inject(ConversationService);
+  conversation = this.conversationService.conversations(); 
+  ngOnInit(): void { 
+    
+  }
   
   //getting the selected emoji
   selectEmoji(emoji: string): void {

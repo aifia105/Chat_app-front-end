@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 import withMT from "@material-tailwind/html/utils/withMT";
 module.exports = withMT( {
-  content: ["./src/**/*.{html,ts}",],
+  content: ["./src/**/*.{html,ts}",
+  "./node_modules/flowbite/**/*.js"
+
+  ],
   theme: {
     extend: {
     },
@@ -11,6 +14,8 @@ module.exports = withMT( {
     padding: '1rem'
 
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 });
 

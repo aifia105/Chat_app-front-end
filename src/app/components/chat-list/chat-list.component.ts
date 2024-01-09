@@ -55,6 +55,10 @@ export class ChatListComponent implements OnInit {
     
   }
 
+  getConversation(friendId: string){
+    this.conversationService.getConversations$.next(friendId);
+  }
+
   /*
   searchTerm: string ='';
   filteredResult: any[] =[]
