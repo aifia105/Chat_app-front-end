@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import { ConversationService } from '../../services/conversation.service';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/Auth.service';
+import { UserInterface } from '../../models/UserInterface';
 
 @Component({
   selector: 'app-chat-window',
@@ -94,9 +97,25 @@ export class ChatWindowComponent implements OnInit {
   elementRef = inject(ElementRef);
 
   private conversationService = inject(ConversationService);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+
   conversation = this.conversationService.conversations(); 
+  user = this.authService.user();
+  friend!:UserInterface;
+
+
   ngOnInit(): void { 
-    
+    this.conversation?.participants.map((participant) => {
+      if(this.conversation?.type=== "one-on-one"){
+      console.log(participant + "1 conv");
+      if(participant !== this.user?.id){
+        this.userService.getUser(participant).subscribe((user) => {
+          this.friend = user;
+        })
+      }
+      } 
+    });
   }
   
   //getting the selected emoji
