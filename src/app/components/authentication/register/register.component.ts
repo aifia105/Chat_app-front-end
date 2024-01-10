@@ -3,6 +3,7 @@ import { Component, effect, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/Auth.service';
+import { PersistanceService } from '../../../services/persistance.service';
 
 @Component({
   selector: 'app-register',
@@ -18,11 +19,14 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   public authService = inject(AuthService);
+  private persist = inject(PersistanceService);
 
   constructor(){
     effect(() => {
       if(this.authService.user()){
         this.router.navigate(['/home']);
+        this.persist.set('user',this.authService.user());
+        this.persist.set('token', this.authService.user()?.token);
       }
     })
   }

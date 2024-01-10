@@ -26,7 +26,8 @@ export class ChatListComponent implements OnInit {
   userConverstaions : ConversationInterface[] = [];
   friends: UserInterface[] = [];
   messages: MessageInterface[] = [];
-  lastMessageRead: boolean = false;
+  lastMessage!: MessageInterface;
+  nonReadMessages: Number = 0;
   
   ngOnInit(): void {
     if (this.user) {
@@ -38,10 +39,9 @@ export class ChatListComponent implements OnInit {
     this.userConverstaions.map((converstaion) => {
       console.log(converstaion.participants + "1 conv");
       const messages = converstaion.messages;
-      const lastMessage = messages[messages.length - 1];
-      if(lastMessage.read === true){
-        this.lastMessageRead = true;
-      }
+      //add last message 
+      //count non read messages
+     
       const friendId = converstaion.participants.find(id => id !== this.user?.id);
       console.log(friendId + "friend id")
       if(friendId){

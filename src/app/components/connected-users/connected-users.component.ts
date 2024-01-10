@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { type DropdownOptions, type DropdownInterface, Dropdown } from 'flowbite';
 import type { InstanceOptions } from 'flowbite';
 import { ConversationService } from '../../services/conversation.service';
+import { PersistanceService } from '../../services/persistance.service';
+import { AuthService } from '../../services/Auth.service';
 
 @Component({
   selector: 'app-connected-users',
@@ -18,17 +20,50 @@ export class ConnectedUsersComponent implements OnDestroy {
   private subscription$ = new Subscription();
   users: UserInterface[]= [];
   groupIds: string[] = [];
+  userId: string | undefined = '';
+  dropdown!: DropdownInterface;
+ 
 
   private userService = inject(UserService);
   private convserationService = inject(ConversationService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
+    this.userId = this.authService.user()?.id;
     this.subscription$.add(
       this.userService.getConnectedUsers().subscribe((users) => {
-        this.users = users;
+        this.users = users.filter((user) => user.id !== this.userId);
       })
     )
-    
+    const $targetEl: HTMLElement = document.getElementById('dropdownSearch')!;
+    const $triggerEl: HTMLElement = document.getElementById('dropdownSearchButton')!;
+   const options: DropdownOptions = {
+     placement: 'bottom',
+     triggerType: 'click',
+     offsetSkidding: 0,
+     offsetDistance: 10,
+     delay: 300,
+     onHide: () => {
+         console.log('dropdown has been hidden');
+     },
+     onShow: () => {
+         console.log('dropdown has been shown');
+     },
+     onToggle: () => {
+         console.log('dropdown has been toggled');
+     },
+ };
+ const instanceOptions: InstanceOptions = {
+  id: 'dropdownSearch',
+  override: true
+};
+this.dropdown  = new Dropdown(
+  $targetEl,
+  $triggerEl,
+  options,
+  instanceOptions
+);
+
   }
 
   ngOnDestroy(): void {
@@ -40,6 +75,8 @@ export class ConnectedUsersComponent implements OnDestroy {
   }
 
   CreateConversationGroup(id: string[]){
+    this.dropdown.hide();
+    id.push(this.userId!);
     this.convserationService.getConversationsGroup$.next(id);
   }
 
@@ -65,32 +102,4 @@ export class ConnectedUsersComponent implements OnDestroy {
 
 
    /*
-   const $targetEl: HTMLElement = document.getElementById('dropdownSearch')!;
-    const $triggerEl: HTMLElement = document.getElementById('dropdownSearchButton')!;
-   const options: DropdownOptions = {
-     placement: 'bottom',
-     triggerType: 'click',
-     offsetSkidding: 0,
-     offsetDistance: 10,
-     delay: 300,
-     onHide: () => {
-         console.log('dropdown has been hidden');
-     },
-     onShow: () => {
-         console.log('dropdown has been shown');
-     },
-     onToggle: () => {
-         console.log('dropdown has been toggled');
-     },
- };
- const instanceOptions: InstanceOptions = {
-  id: 'dropdownSearch',
-  override: true
-};
-const dropdown: DropdownInterface = new Dropdown(
-  $targetEl,
-  $triggerEl,
-  options,
-  instanceOptions
-);
-dropdown.show(); */
+    */

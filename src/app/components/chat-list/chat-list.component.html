@@ -53,14 +53,14 @@
 
   <!-- converstaion list-->
   <div  *ngFor="let item of friends" class="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
-    <div (click)="getConversation(item.id)">
+  
       <div class="flex-shrink-0">
         <!-- ngif user conected-->
         <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
         <img [src]="item.picture" class="rounded-full h-8 w-8">
       </div>
-      <div class="flex-1 min-w-0">
-        <a href="#" class="focus:outline-none">
+      <div  class="flex-1 min-w-0">
+        <button (click)="getConversation(item.id)" class="focus:outline-none">
           <div class="flex items-center justify-between">
             <!-- friend name -->
             <p class="text-sm font-bold text-gray-900">{{item.username}}</p>
@@ -73,9 +73,9 @@
             <!-- number of messgaes not seen-->
             <div class="text-white text-xs bg-blue-500 rounded-full px-1 py-0">2</div>
           </div>
-        </a>
+        </button>
       </div>
-    </div>
+  
   </div>
 
 

@@ -67,7 +67,7 @@ export class ConversationService {
 
 
     getConversationsOneOnOne(id: string):Observable<ConversationInterface>{
-        const url = environment.apiUrl + '/conversations/one-on-one/';
+        const url = environment.apiUrl + 'conversation/one-on-one/';
         var headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200',
@@ -84,7 +84,7 @@ export class ConversationService {
     }
 
     getConversationsGroup(participants: string[]):Observable<ConversationInterface>{
-        const url = environment.apiUrl + '/conversations/group';
+        const url = environment.apiUrl + 'conversation/group';
         var headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localhost:4200',

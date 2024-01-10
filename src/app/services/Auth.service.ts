@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable, computed, inject, signal } from "@angular/core";
 import { LoginRequest } from "../models/LoginRequest";
 import { environment } from "../../environments/environment";
-import { EMPTY, Observable, Subject, catchError, switchMap, tap, throwError } from "rxjs";
+import { EMPTY, Observable, Subject, catchError, map, switchMap, tap, throwError } from "rxjs";
 import { RegisterRequest } from "../models/RegisterRequest";
 import { AuthenticationResponse } from "../models/AuthenticationResponse";
 
