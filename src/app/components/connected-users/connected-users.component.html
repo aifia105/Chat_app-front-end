@@ -1,4 +1,4 @@
-<div class="bg-gray-50 pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden xl:block">
+<div class="bg-gray-50 pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden xl:block overflow-auto">
 <div class="h-full  pl-4 py-6 lg:w-64">
     <div>
    <button
@@ -43,10 +43,8 @@
   <div    class=" rounded-lg  px-2 py-2 flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 mb-3 hover:bg-gray-200">
     <div class="flex-shrink-0">
       <!-- ngif user conected-->
-      @if (item.onlineStatus) {
-        <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
-      }
-      <img [src]="item.picture" class="rounded-full h-8 w-8">
+      <div  class=" relative rounded-full  before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:-right-0 before:-bottom-8 before:ring-1 before:ring-white "></div>
+      <img [src]="item?.picture" class="rounded-full h-8 w-8">
     </div>
     <div class="flex-1 min-w-0">
       <button (click)="CreateConversation(item.id)" class="focus:outline-none">

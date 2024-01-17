@@ -32,8 +32,15 @@ export class ConnectedUsersComponent implements OnDestroy {
     this.userId = this.authService.user()?.id;
     this.subscription$.add(
       this.userService.getConnectedUsers().subscribe((users) => {
+        
         this.users = users.filter((user) => user.id !== this.userId);
+        this.users.map((user) => {
+          if (user) {
+            user.picture = 'data:picture/jpeg;base64,' + user.picture;
+          }
+        })
       })
+
     )
     const $targetEl: HTMLElement = document.getElementById('dropdownSearch')!;
     const $triggerEl: HTMLElement = document.getElementById('dropdownSearchButton')!;
@@ -43,15 +50,6 @@ export class ConnectedUsersComponent implements OnDestroy {
      offsetSkidding: 0,
      offsetDistance: 10,
      delay: 300,
-     onHide: () => {
-         console.log('dropdown has been hidden');
-     },
-     onShow: () => {
-         console.log('dropdown has been shown');
-     },
-     onToggle: () => {
-         console.log('dropdown has been toggled');
-     },
  };
  const instanceOptions: InstanceOptions = {
   id: 'dropdownSearch',
