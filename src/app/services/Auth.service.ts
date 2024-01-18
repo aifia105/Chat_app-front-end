@@ -18,68 +18,8 @@ interface AuthState{
  })
 export class AuthService {
     private http = inject(HttpClient);
-    //state
-    private state = signal<AuthState>({
-        status: 'pending',
-        user: null,
-    });
-   //actions
-   error$ = new Subject<any>();
-   registerUser$ = new Subject<RegisterRequest>();
-  userRegistered$ = this.registerUser$.pipe(
-    switchMap((registerRequest) => this.register(registerRequest).pipe(
-      catchError((error) => {
-        this.error$.next(error);
-        return EMPTY;
-      })
-    ))
-  );
-   authenticateUser$ = new Subject<LoginRequest>();
-   userAuthenticated$ = this.authenticateUser$.pipe(
-    switchMap((LoginRequest) => this.login(LoginRequest).pipe(
-        catchError((error) => {
-            this.error$.next(error);
-            return EMPTY;
-        })
-    
-    ))
-   );
-   disconnectUser$ = new Subject<string | undefined>();
-   userDisconnected$ = this.disconnectUser$.pipe(
-     tap((id) => this.disconnect(id))
-   );
-   //selectors
-   user = computed(() => this.state().user);
-   status = computed(() => this.state().status);
-   constructor(){
-    //reducers
-    this.userAuthenticated$.pipe().subscribe((user) => {
-        this.state.update((state) => ({ ...state, status: 'success', user: user  }))
-    });
-    this.error$.pipe().subscribe(() => {
-        this.state.update((state) => ({ ...state, status: 'error'  }))
-    });
-    this.authenticateUser$.pipe().subscribe(() => {
-        this.state.update((state) => ({ ...state, status: 'pending', user : null  }))
-    });
-
-    this.userRegistered$.subscribe((user) => {
-      this.state.update((state) => ({... state, status: 'success', user: user}));
-    });
-    this.error$.subscribe(() => {
-      this.state.update((state) => ({... state, status: 'error'}));
-    });
-    this.registerUser$.subscribe(() => {
-      this.state.update((state) => ({... state, status: 'pending', user: null}))
-    });
-    this.userDisconnected$.subscribe(() => {
-      this.state.update((state) => ({ ...state, status: 'success', user: null  }))
-    });
-    this.disconnectUser$.subscribe(() => {
-      this.state.update((state) => ({ ...state, status: 'pending', user: null  }))
-    })
-   }
-
+   
+   
     
     login(loginResquest: LoginRequest): Observable<AuthenticationResponse>{
         const url = environment.apiUrl + 'login';

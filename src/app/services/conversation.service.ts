@@ -4,12 +4,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { EMPTY, Observable, Subject, catchError, switchMap, tap, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
 
-export type ConversationStatus = 'pending' | 'success' | 'error';
-export interface ConversationState {
-    status: ConversationStatus;
-    conversations: ConversationInterface | null;
 
-}
+
 
 @Injectable({
     providedIn: 'root'
@@ -17,53 +13,6 @@ export interface ConversationState {
 export class ConversationService {
 
     private http = inject(HttpClient);
-    //state 
-    private state = signal<ConversationState>({
-        status: 'pending',
-        conversations: null,
-    });
-    //actions
-    error$ = new Subject<any>();
-    getConversations$ = new Subject<string>();
-    conversations$ = this.getConversations$.pipe(
-        switchMap((id) => this.getConversationsOneOnOne(id).pipe(
-            catchError((error) => {
-                this.error$.next(error);
-                return EMPTY;
-            })
-        ))
-    );
-    getConversationsGroup$ = new Subject<string[]>();
-    conversationsGroup$ = this.getConversationsGroup$.pipe(
-        switchMap((participants) => this.getConversationsGroup(participants).pipe(
-            catchError((error) => {
-                this.error$.next(error);
-                return EMPTY;
-            })
-        ))
-    );
-
-    //selectors
-    conversations = computed(() => this.state().conversations);
-
-    //reducers
-    constructor() {
-        this.conversations$.pipe().subscribe((conversation)=>{
-            this.state.update((state)=> ({...state, status: 'success', conversations: conversation}))
-        });
-        this.error$.pipe().subscribe(()=>{
-            this.state.update((state)=> ({...state, status: 'error'}))
-        });
-        this.getConversations$.pipe().subscribe(() => {
-            this.state.update((state)=> ({...state, status: 'pending', conversations: null}));
-        })
-        this.conversationsGroup$.pipe().subscribe((conversation)=>{
-            this.state.update((state)=> ({...state, status: 'success', conversations: conversation}))
-        });
-        this.getConversationsGroup$.pipe().subscribe(() => {
-            this.state.update((state)=> ({...state, status: 'pending', conversations: null}));
-        });
-    }
 
 
     getConversationsOneOnOne(id: string):Observable<ConversationInterface>{
